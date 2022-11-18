@@ -2,9 +2,9 @@ import mjml2html from 'mjml';
 import type { SvelteComponentTyped } from 'svelte';
 import { HelloWorld } from './package/index.js';
 
-export const render = <T extends SvelteComponentTyped<any, any, any>>(
-  component: new (...args: any[]) => T,
-  props: T extends SvelteComponentTyped<infer U, any, any> ? U : never
+export const render = <T extends Record<string, any>>(
+  component: new (...args: any[]) => SvelteComponentTyped<T, any, any>,
+  props: T
 ) => {
   // @ts-expect-error SSR components have a `render` method
   const { html: mjml } = component.render(props);
