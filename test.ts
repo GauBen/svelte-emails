@@ -1,6 +1,6 @@
 import mjml2html from 'mjml';
 import type { SvelteComponentTyped } from 'svelte';
-import { HelloWorld } from './package/index.js';
+import { HelloWorld } from './build/index.js';
 
 export const render = <T extends Record<string, any>>(
   component: new (...args: any[]) => SvelteComponentTyped<T, any, any>,

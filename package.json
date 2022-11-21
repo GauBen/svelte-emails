@@ -8,8 +8,8 @@
     "@rollup/plugin-node-resolve": "^15.0.1",
     "@sveltejs/adapter-auto": "next",
     "@sveltejs/kit": "next",
-    "@sveltejs/package": "next",
     "@types/mjml": "^4",
+    "@types/node": "^18.11.9",
     "prettier": "^2.6.2",
     "prettier-plugin-svelte": "^2.7.0",
     "rollup": "^3.3.0",
@@ -17,14 +17,19 @@
     "svelte": "^3.53.1",
     "svelte-check": "^2.7.1",
     "svelte-preprocess": "^4.10.6",
+    "svelte2tsx": "^0.5.20",
     "tslib": "^2.3.1",
     "tsx": "^3.12.1",
     "typescript": "^4.7.4",
     "vite": "^3.1.0"
   },
+  "exports": {
+    "types": "./build/index.d.ts",
+    "import": "./build/index.js"
+  },
   "packageManager": "yarn@4.0.0-rc.29",
   "scripts": {
-    "build": "svelte-kit sync && svelte-package && rollup -c",
+    "build": "svelte-kit sync && rollup -c",
     "check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
     "check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
     "dev": "vite dev",

@@ -212,22 +212,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@sveltejs/package@npm:next":
-  version: 1.0.0-next.1
-  resolution: "@sveltejs/package@npm:1.0.0-next.1"
-  dependencies:
-    chokidar: "npm:^3.5.3"
-    kleur: "npm:^4.1.4"
-    sade: "npm:^1.8.1"
-    svelte2tsx: "npm:~0.5.10"
-  peerDependencies:
-    svelte: ^3.44.0
-  bin:
-    svelte-package: svelte-package.js
-  checksum: a669aa2557c1c659da5e222f77e21313bc551b136fb39d475cb59d3db12ba43811469d8e1b08c0dcc91023bc47c43947aaa39bcc439b111b118289476e740d03
-  languageName: node
-  linkType: hard
-
 "@sveltejs/vite-plugin-svelte@npm:^1.1.0":
   version: 1.2.0
   resolution: "@sveltejs/vite-plugin-svelte@npm:1.2.0"
@@ -286,7 +270,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/node@npm:*":
+"@types/node@npm:*, @types/node@npm:^18.11.9":
   version: 18.11.9
   resolution: "@types/node@npm:18.11.9"
   checksum: 7b7d90894dd1ae9b6836e49ace5bdea55cc08806a508e38851e333f1ad77ec81ea6dca58e6a2444ad0471fee965b9908cc1ef06028eebca9c20d54729df98bab
@@ -582,7 +566,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"chokidar@npm:^3.0.0, chokidar@npm:^3.4.1, chokidar@npm:^3.5.3":
+"chokidar@npm:^3.0.0, chokidar@npm:^3.4.1":
   version: 3.5.3
   resolution: "chokidar@npm:3.5.3"
   dependencies:
@@ -1649,7 +1633,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"kleur@npm:^4.1.4, kleur@npm:^4.1.5":
+"kleur@npm:^4.1.5":
   version: 4.1.5
   resolution: "kleur@npm:4.1.5"
   checksum: 9b766fbd8e12ff58d20f847864e973c8a03c84c63f1e9aa2e0eca466edc5509043cfddf2632d3ea41061dd2dde84425fe686ed13afd9f430a59fcaa4a17d2a54
@@ -2910,8 +2894,8 @@ __metadata:
     "@rollup/plugin-node-resolve": "npm:^15.0.1"
     "@sveltejs/adapter-auto": "npm:next"
     "@sveltejs/kit": "npm:next"
-    "@sveltejs/package": "npm:next"
     "@types/mjml": "npm:^4"
+    "@types/node": "npm:^18.11.9"
     mjml: "npm:^4.13.0"
     prettier: "npm:^2.6.2"
     prettier-plugin-svelte: "npm:^2.7.0"
@@ -2920,6 +2904,7 @@ __metadata:
     svelte: "npm:^3.53.1"
     svelte-check: "npm:^2.7.1"
     svelte-preprocess: "npm:^4.10.6"
+    svelte2tsx: "npm:^0.5.20"
     tslib: "npm:^2.3.1"
     tsx: "npm:^3.12.1"
     typescript: "npm:^4.7.4"
@@ -3139,7 +3124,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"svelte2tsx@npm:~0.5.10":
+"svelte2tsx@npm:^0.5.20":
   version: 0.5.20
   resolution: "svelte2tsx@npm:0.5.20"
   dependencies:
