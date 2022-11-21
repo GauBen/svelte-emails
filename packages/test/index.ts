@@ -1,6 +1,6 @@
-import mjml2html from 'mjml';
-import type { SvelteComponentTyped } from 'svelte';
-import { HelloWorld } from './build/index.js';
+import mjml2html from "mjml";
+import type { SvelteComponentTyped } from "svelte";
+import { HelloWorld } from "smails";
 
 export const render = <T extends Record<string, any>>(
   component: new (...args: any[]) => SvelteComponentTyped<T, any, any>,
@@ -14,11 +14,11 @@ export const render = <T extends Record<string, any>>(
 
 console.log(
   render(HelloWorld, {
-    name: 'world',
+    name: "world",
     buttons: [
-      { label: 'Discord', color: '#5662f6' },
-      { label: 'LinkedIn', color: '#0a66c2' },
-      { label: 'GitHub', color: '#333' },
+      { label: "Discord", color: "#5662f6" },
+      { label: "LinkedIn", color: "#0a66c2" },
+      { label: "GitHub", color: "#333" },
     ],
   })
 );
