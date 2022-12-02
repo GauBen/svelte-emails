@@ -1,0 +1,10 @@
+{
+  "name": "demo",
+  "packageManager": "yarn@4.0.0-rc.32",
+  "type": "module",
+  "devDependencies": {
+    "svelte-emails": "workspace:^",
+    "tsx": "^3.12.1",
+    "typescript": "^4.9.3"
+  }
+}

@@ -1,6 +1,10 @@
 {
   "name": "svelte-emails",
   "version": "0.0.1",
+  "exports": {
+    "types": "./build/index.d.ts",
+    "import": "./build/index.js"
+  },
   "scripts": {
     "dev": "vite dev",
     "build": "svelte-kit sync && tsc -p tsconfig.build.json && rollup -c",

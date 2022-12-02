@@ -364,10 +364,14 @@ Create a `tsconfig.build.json` with the following:
 }
 ```
 
-Finally, update the `build` script of your `package.json` with the following:
+Finally, update your `package.json` with the following:
 
 ```jsonc
 {
+  "exports": {
+    "types": "./build/index.d.ts",
+    "import": "./build/index.js"
+  },
   "scripts": {
     "build": "svelte-kit sync && tsc -p tsconfig.build.json && rollup -c"
   }
@@ -377,3 +381,41 @@ Finally, update the `build` script of your `package.json` with the following:
 And `yarn build` your first email!
 
 ## Wrapping up
+
+Let's see how to use our emails in a NodeJS app.
+
+```bash
+# We will create a demo package in `packages/demo`
+cd ..
+mkdir demo && cd $_
+
+# Init a new TypeScript project
+yarn init
+yarn add -D typescript tsx svelte-emails
+```
+
+You will need a basic `tsconfig.json` too:
+
+```jsonc
+{
+  "compilerOptions": {
+    "module": "ESNext",
+    "moduleResolution": "NodeNext",
+    "strict": true
+  }
+}
+```
+
+Create an `index.ts` file in the same directory:
+
+```ts
+import { render, HelloWorld } from "svelte-emails";
+
+const html = render(HelloWorld, {
+  // This is type-checked!
+  name: "World",
+});
+console.log(html);
+```
+
+And run it with `yarn tsx index.ts`!

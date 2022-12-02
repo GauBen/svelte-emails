@@ -14,6 +14,36 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@esbuild-kit/cjs-loader@npm:^2.4.0":
+  version: 2.4.1
+  resolution: "@esbuild-kit/cjs-loader@npm:2.4.1"
+  dependencies:
+    "@esbuild-kit/core-utils": "npm:^3.0.0"
+    get-tsconfig: "npm:^4.2.0"
+  checksum: 81b2d9ce8a041e41ae3d5b87c4cad2abe786971ba60331879d1d174d0640010e02e9b400f8237d3f9c072244b68c60d0b9b74f52b8a20b2ed07ad274eeaa1a4d
+  languageName: node
+  linkType: hard
+
+"@esbuild-kit/core-utils@npm:^3.0.0":
+  version: 3.0.0
+  resolution: "@esbuild-kit/core-utils@npm:3.0.0"
+  dependencies:
+    esbuild: "npm:~0.15.10"
+    source-map-support: "npm:^0.5.21"
+  checksum: 0921dca9b8a6f4e52eb77f43e93e4d222b51e8eae96ae83d26ecf89b98dd62604407a01f79167823a63aa24c50c902ac9d733b90b37b84849e0498ef78719145
+  languageName: node
+  linkType: hard
+
+"@esbuild-kit/esm-loader@npm:^2.5.0":
+  version: 2.5.4
+  resolution: "@esbuild-kit/esm-loader@npm:2.5.4"
+  dependencies:
+    "@esbuild-kit/core-utils": "npm:^3.0.0"
+    get-tsconfig: "npm:^4.2.0"
+  checksum: 5b7a62e43fd8abe188fdae689676c196c45991897b923d352621b5daeadbd64c9c61c7ade804360042dc50c75d3154f63b7c16a44390f16f5c53444347716f73
+  languageName: node
+  linkType: hard
+
 "@esbuild/android-arm@npm:0.15.16":
   version: 0.15.16
   resolution: "@esbuild/android-arm@npm:0.15.16"
@@ -443,6 +473,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"buffer-from@npm:^1.0.0":
+  version: 1.1.2
+  resolution: "buffer-from@npm:1.1.2"
+  checksum: 2d8a264381325ee41959bb21bae76dc85b486f253e227a3fa70082c83f14c41665ce227ccda79e93ea2fc12e37a678fe956a6fa01b1876e6142eaf6554585ea4
+  languageName: node
+  linkType: hard
+
 "builtin-modules@npm:^3.3.0":
   version: 3.3.0
   resolution: "builtin-modules@npm:3.3.0"
@@ -747,6 +784,16 @@ __metadata:
   checksum: 2ef8c043c6caea7f00f23236e0606b00f10d2b497657d63d230e50efdef307936b070734187b03960b9c4afe64ce9e09a77c01da60e661d42dcefec11ce41c30
   languageName: node
   linkType: hard
+
+"demo@workspace:packages/demo":
+  version: 0.0.0-use.local
+  resolution: "demo@workspace:packages/demo"
+  dependencies:
+    svelte-emails: "workspace:^"
+    tsx: "npm:^3.12.1"
+    typescript: "npm:^4.9.3"
+  languageName: unknown
+  linkType: soft
 
 "depd@npm:^1.1.2":
   version: 1.1.2
@@ -1059,7 +1106,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"esbuild@npm:^0.15.9":
+"esbuild@npm:^0.15.9, esbuild@npm:~0.15.10":
   version: 0.15.16
   resolution: "esbuild@npm:0.15.16"
   dependencies:
@@ -1257,6 +1304,13 @@ __metadata:
   version: 2.0.5
   resolution: "get-caller-file@npm:2.0.5"
   checksum: 24c1eb494b27c789e9267d7220bb131e409427b793f9e2b07f772f8d84c44eb0b42b90c258d858ee758ec6a21092c16a1c78c5fac02c0df7c156bb7113307192
+  languageName: node
+  linkType: hard
+
+"get-tsconfig@npm:^4.2.0":
+  version: 4.2.0
+  resolution: "get-tsconfig@npm:4.2.0"
+  checksum: 9bdb940c9a30bbc87818e2c1c46fdf39708b913388e71fe0d30a3e8f6b4146d871d6fc9d6834220de84ece85f45872f41a1a8207f709bbfa7f9dcb38909a1a99
   languageName: node
   linkType: hard
 
@@ -2938,7 +2992,17 @@ __metadata:
   languageName: node
   linkType: hard
 
-"source-map@npm:~0.6.0":
+"source-map-support@npm:^0.5.21":
+  version: 0.5.21
+  resolution: "source-map-support@npm:0.5.21"
+  dependencies:
+    buffer-from: "npm:^1.0.0"
+    source-map: "npm:^0.6.0"
+  checksum: ab0f9bfbcfc32018966a7199de5aeafee03a38408852400962d302392aab16d670dc84e6eda937570c5ff09972ae23347804cdffc5fe3c5e382a5b04cee3d580
+  languageName: node
+  linkType: hard
+
+"source-map@npm:^0.6.0, source-map@npm:~0.6.0":
   version: 0.6.1
   resolution: "source-map@npm:0.6.1"
   checksum: cba9f44c3a4a0485f44a7760ebe427eecdd3b58011ae0459c05506b54f898835b2302073d6afa563a19b60ee9e54c82e33bc4a032e28bebacdfc635f1d0bf7e0
@@ -3033,7 +3097,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"svelte-emails@workspace:packages/svelte-emails":
+"svelte-emails@workspace:^, svelte-emails@workspace:packages/svelte-emails":
   version: 0.0.0-use.local
   resolution: "svelte-emails@workspace:packages/svelte-emails"
   dependencies:
@@ -3185,6 +3249,23 @@ __metadata:
   version: 2.4.1
   resolution: "tslib@npm:2.4.1"
   checksum: a739a21e3ff059e62c7c3c0845333fbc9c081bcc91e015f2d246a31eeaf1fb0e29b10c0913c7d22f692b3203bb469fd60ca5288aa4f27d351a969df2d0714899
+  languageName: node
+  linkType: hard
+
+"tsx@npm:^3.12.1":
+  version: 3.12.1
+  resolution: "tsx@npm:3.12.1"
+  dependencies:
+    "@esbuild-kit/cjs-loader": "npm:^2.4.0"
+    "@esbuild-kit/core-utils": "npm:^3.0.0"
+    "@esbuild-kit/esm-loader": "npm:^2.5.0"
+    fsevents: "npm:~2.3.2"
+  dependenciesMeta:
+    fsevents:
+      optional: true
+  bin:
+    tsx: dist/cli.js
+  checksum: 41954a86cc5fc2002e140d5122d282060a20ad1a807ff1a2666c8d50e2dab3570614a43fe9f0844ef6232e22091e060234a3019a6d687c43d004bb8427473233
   languageName: node
   linkType: hard
 
