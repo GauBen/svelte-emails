@@ -391,6 +391,7 @@ mkdir demo && cd $_
 
 # Init a new TypeScript project
 yarn init
+sed -i '1s/.*/{"type":"module",/' package.json
 yarn add -D typescript tsx svelte-emails
 ```
 
