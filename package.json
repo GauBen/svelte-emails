@@ -1,0 +1,8 @@
+{
+  "name": "smails",
+  "packageManager": "yarn@4.0.0-rc.32",
+  "private": true,
+  "workspaces": [
+    "packages/*"
+  ]
+}
