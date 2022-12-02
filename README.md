@@ -138,6 +138,9 @@ yarn create svelte@latest svelte-emails
 
 # Install the dependencies
 cd $_ && yarn install
+
+# Add MJML too
+yarn add mjml
 ```
 
 We now have a whole SvelteKit project in `packages/svelte-emails`. Let's update the `svelte.config.ts` file for our needs:
@@ -152,131 +155,138 @@ export default {
 };
 ```
 
-You can now `rm -rf src/routes` the previous routes and create or update a few files:
+You can now `rm -rf src/routes` the previous routes and create or update a few files in `src/`:
 
-- `src/`
+- `index.ts`: This will be our library entry point.
 
-  - `index.ts`: This will be our library entry point.
+  ```ts
+  // Export the renderer
+  export { render } from "./lib/index.js";
+  // Also export compiled Svelte components
+  export * from "./mails/index.js";
+  ```
 
-    ```ts
-    // Export the renderer
-    export { render } from "./lib/index.js";
-    // Also export compiled Svelte components
-    export * from "./mails/index.js";
+- `lib/`
+
+  - `Header.svelte`: This will be our common email header.
+
+    ```html
+    <mj-section>
+      <mj-column>
+        <mj-text align="center" font-size="20px" font-family="Helvetica">
+          <slot />
+        </mj-text>
+        <mj-divider border-color="#ff3e00" />
+      </mj-column>
+    </mj-section>
     ```
 
-  - `lib/`
+  - `index.ts`: We will put the MJML rendering logic in it.
 
-    - `Header.svelte`: This will be our common email header.
+    ```ts
+    import mjml2html from "mjml";
+    import type { SvelteComponentTyped } from "svelte";
+    import type { create_ssr_component } from "svelte/internal";
 
-      ```html
+    /**
+     * Removes classes added to elements by the Svelte compiler because MJML does
+     * not support them.
+     */
+    const stripSvelteClasses = (html: string) =>
+      html.replaceAll(/class="s-\w+"/g, "");
+
+    /** Renders a Svelte component as email-ready HTML. */
+    export const render = <Props extends Record<string, any>>(
+      component: new (...args: any[]) => SvelteComponentTyped<Props>,
+      props: Props
+    ) => {
+      const ssrComponent = component as unknown as ReturnType<
+        typeof create_ssr_component
+      >;
+
+      // Render the component to MJML
+      const { html: body, css, head } = ssrComponent.render(props);
+
+      const mjml = `<mjml>
+        <mj-head>
+          ${stripSvelteClasses(head)}
+          <mj-style>${css.code}</mj-style>
+        </mj-head>
+        <mj-body>${stripSvelteClasses(body)}</mj-body>
+      </mjml>`;
+
+      // Render the MJML to HTML
+      const { html, errors } = mjml2html(mjml);
+      if (errors.length > 0) console.warn(errors);
+
+      return html;
+    };
+    ```
+
+- `mails/`: This is the root HTTP directory, and it will contain our emails.
+
+  - `index.ts`: This is our email entry point.
+
+    ```ts
+    export { default as HelloWorld } from "./hello-world/Mail.svelte";
+    ```
+
+  - `hello-world/`
+
+    - `Mail.svelte`: Make a guess!
+
+      ```svelte
+      <script lang="ts">
+        import Header from "$lib/Header.svelte";
+        export let name: string;
+      </script>
+
+      <Header>Hello {name}!</Header>
       <mj-section>
         <mj-column>
-          <mj-text align="center" font-size="21px" font-family="Helvetica">
-            <slot />
-          </mj-text>
-          <mj-divider border-color="#ff3e00"></mj-divider>
+          <mj-button
+            color="#fff"
+            background-color="#ff3e00"
+            font-family="Helvetica"
+            href="https://svelte.dev"
+          >
+            Learn Svelte
+          </mj-button>
         </mj-column>
       </mj-section>
       ```
 
-    - `index.ts`: We will put the MJML rendering logic in it.
+    - `+page.server.ts`: This will be where we render the email with some parameters.
 
       ```ts
-      import mjml2html from "mjml";
-      import type { SvelteComponentTyped } from "svelte";
-      import type { create_ssr_component } from "svelte/internal";
+      import { render } from "$lib";
+      import Mail from "./Mail.svelte";
 
-      /**
-       * Removes classes added to elements by the Svelte compiler because MJML does
-       * not support them.
-       */
-      const stripSvelteClasses = (html: string) =>
-        html.replaceAll(/class="s-\w+"/g, "");
-
-      /** Renders a Svelte component as email-ready HTML. */
-      export const render = <Props extends Record<string, any>>(
-        component: new (...args: any[]) => SvelteComponentTyped<Props>,
-        props: Props
-      ) => {
-        const ssrComponent = component as unknown as ReturnType<
-          typeof create_ssr_component
-        >;
-
-        // Render the component to MJML
-        const { html: body, css, head } = ssrComponent.render(props);
-
-        const mjml = `<mjml>
-          <mj-head>
-            ${stripSvelteClasses(head)}
-            <mj-style>${css.code}</mj-style>
-          </mj-head>
-          <mj-body>${stripSvelteClasses(body)}</mj-body>
-        </mjml>`;
-
-        // Render the MJML to HTML
-        const { html, errors } = mjml2html(mjml);
-        if (errors.length > 0) console.warn(errors);
-
-        return html;
-      };
+      export const load = async () => ({
+        email: render(Mail, {
+          // This is type-checked!
+          name: "World",
+        }),
+      });
       ```
 
-  - `mails/`: This is the root HTTP directory, and it will contain our emails.
+    - `+page.svelte`: Our email preview, powered by [Vite](https://vitejs.dev/).
 
-    - `index.ts`: This is our email entry point.
+      ```html
+      <script lang="ts">
+        import type { PageData } from "./$types";
+        export let data: PageData;
+      </script>
 
-      ```ts
-      export { default as HelloWorld } from "./hello-world/Mail.svelte";
+      {@html data.email}
       ```
 
-    - `hello-world/`
+That is quite a lot of code! Let's try it out:
 
-      - `Mail.svelte`: Make a guess!
-
-        ```html
-        <script lang="ts">
-          import Header from "$lib/Header.svelte";
-          export let name: string;
-        </script>
-
-        <header>Hello {name}!</header>
-        <mj-section>
-          <mj-column>
-            <mj-button
-              color="#fff"
-              background-color="#ff3e00"
-              font-family="Helvetica"
-              href="https://svelte.dev"
-            >
-              Learn Svelte
-            </mj-button>
-          </mj-column>
-        </mj-section>
-        ```
-
-      - `+page.server.ts`: This will be where we render the email with some parameters.
-
-        ```ts
-        import { render } from "$lib";
-        import Mail from "./Mail.svelte";
-
-        export const load = async () => ({
-          email: render(Mail, {
-            // This is type-checked!
-            name: "World",
-          }),
-        });
-        ```
-
-      - `+page.svelte`: Our email preview, powered by [Vite](https://vitejs.dev/).
-
-        ```html
-        <script>
-          export let data;
-        </script>
-        {@html data.email}
-        ```
+```bash
+# Start the dev server
+yarn dev
+```
 
 ## The build pipeline
 
