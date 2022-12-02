@@ -43,12 +43,14 @@ Here is our plan:
 
 ```html
 <script lang="ts">
-  export let name = 'World';
+  export let name = 'World'
 </script>
 
 <mj-section>
   <mj-column>
-    <mj-text font-size="32px" color="#F45E43" font-family="helvetica">Hello {name}!</mj-text>
+    <mj-text font-size="32px" color="#F45E43" font-family="helvetica"
+      >Hello {name}!</mj-text
+    >
     <mj-divider border-color="#F45E43" />
   </mj-column>
 </mj-section>
@@ -62,7 +64,7 @@ const mail = (props) => `<mj-section>
     <mj-text font-size="32px" color="#F45E43" font-family="helvetica">Hello ${props.name}!</mj-text>
     <mj-divider border-color="#F45E43" />
   </mj-column>
-</mj-section>`;
+</mj-section>`
 ```
 
 3. We would feed this to the MJML compiler:
@@ -71,21 +73,21 @@ const mail = (props) => `<mj-section>
 const document = (body) => `<mjml>
   <mj-head><!-- Other head properties --></mj-head>
   <mj-body>${body}</mj-body>
-</mjml>`;
-const html = mjml2html(document(mail({ name: 'World' })));
+</mjml>`
+const html = mjml2html(document(mail({ name: 'World' })))
 ```
 
 4. We would send the resulting HTML:
 
 ```js
-let transporter = nodemailer.createTransport();
+let transporter = nodemailer.createTransport()
 
 await transporter.sendMail({
   from: 'support@example.com',
   to: 'client@example.com',
   subject: 'Hello!',
   html,
-});
+})
 ```
 
 Apart from that, we also want:
@@ -99,6 +101,44 @@ Our setup will be in two parts:
 - Setting up a build pipeline to compile emails to HTML strings.
 
 ## The dev server
+
+If you want to have everything working by the end of this article, you can follow the steps below. Otherwise, you can skip to the next section.
+
+If you don't have Node or Yarn on your machine, you can install them easily with [Volta](https://volta.sh/):
+
+```bash
+# Install the latest versions of Node and Yarn
+volta install node@latest
+volta install yarn@latest
+
+# Create a new project
+mkdir project && cd $_
+
+# Setup a monorepo with Yarn 4
+yarn init --private --workspace -2
+yarn set version canary
+
+# Enable the good ol' node_modules
+echo 'nodeLinker: node-modules' >> .yarnrc.yml
+echo 'node_modules/\nbuild/' >> .gitignore
+```
+
+We use Yarn 4 because it ships with a few tools to manage monorepos that we will use later.
+
+Then, let's create a SvelteKit project:
+
+```bash
+cd packages
+# Create a Svelte app in the `packages/svelte-emails` directory
+# You will have a few choices prompted:
+#  - Template: Library
+#  - Type checking: TypeScript
+#  - Prettier, ESLint, etc.: Not needed, do as you wish
+yarn create svelte@latest svelte-emails
+
+# Install the dependencies
+cd $_ && yarn install
+```
 
 ## The build pipeline
 
