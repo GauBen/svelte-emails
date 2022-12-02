@@ -43,7 +43,7 @@ Here is our plan:
 
 ```html
 <script lang="ts">
-  export let name = 'World'
+  export let name = "World";
 </script>
 
 <mj-section>
@@ -64,7 +64,7 @@ const mail = (props) => `<mj-section>
     <mj-text font-size="32px" color="#F45E43" font-family="helvetica">Hello ${props.name}!</mj-text>
     <mj-divider border-color="#F45E43" />
   </mj-column>
-</mj-section>`
+</mj-section>`;
 ```
 
 3. We would feed this to the MJML compiler:
@@ -73,21 +73,21 @@ const mail = (props) => `<mj-section>
 const document = (body) => `<mjml>
   <mj-head><!-- Other head properties --></mj-head>
   <mj-body>${body}</mj-body>
-</mjml>`
-const html = mjml2html(document(mail({ name: 'World' })))
+</mjml>`;
+const html = mjml2html(document(mail({ name: "World" })));
 ```
 
 4. We would send the resulting HTML:
 
 ```js
-let transporter = nodemailer.createTransport()
+let transporter = nodemailer.createTransport();
 
 await transporter.sendMail({
-  from: 'support@example.com',
-  to: 'client@example.com',
-  subject: 'Hello!',
+  from: "support@example.com",
+  to: "client@example.com",
+  subject: "Hello!",
   html,
-})
+});
 ```
 
 Apart from that, we also want:
@@ -131,13 +131,25 @@ Then, let's create a SvelteKit project:
 cd packages
 # Create a Svelte app in the `packages/svelte-emails` directory
 # You will have a few choices prompted:
-#  - Template: Library
+#  - Template: Library skeleton project
 #  - Type checking: TypeScript
 #  - Prettier, ESLint, etc.: Not needed, do as you wish
 yarn create svelte@latest svelte-emails
 
 # Install the dependencies
 cd $_ && yarn install
+```
+
+We now have a whole SvelteKit project in `packages/svelte-emails`. Let's update the `svelte.config.ts` file for our needs:
+
+```js
+import preprocess from "svelte-preprocess";
+
+/** @type {import('@sveltejs/kit').Config} */
+export default {
+  preprocess: preprocess(),
+  kit: { files: { routes: "src/mails" } },
+};
 ```
 
 ## The build pipeline
