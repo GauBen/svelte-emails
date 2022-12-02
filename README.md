@@ -286,11 +286,11 @@ That is quite a lot of code! Let's try it out:
 ```bash
 # Start the dev server
 yarn dev
-
-#
 ```
 
 Go to [localhost:5173/hello-world](http://localhost:5173/hello-world) to see the email preview, and edit anything to see it update in real-time.
+
+![A screenshot of the resulting email, with a title and a button](./screenshot.png)
 
 ## The build pipeline
 
@@ -419,3 +419,7 @@ console.log(html);
 ```
 
 And run it with `yarn tsx index.ts`!
+
+---
+
+This concludes this experiment. We are still tinkering with a few things to make it easier to use, but we hope you enjoyed this article. Feel free to ask questions or give feedback on how you are currently developing emails, we are eager to hear from you!
