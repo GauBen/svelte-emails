@@ -113,6 +113,55 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@rollup/plugin-alias@npm:^4.0.2":
+  version: 4.0.2
+  resolution: "@rollup/plugin-alias@npm:4.0.2"
+  dependencies:
+    slash: "npm:^4.0.0"
+  peerDependencies:
+    rollup: ^1.20.0||^2.0.0||^3.0.0
+  peerDependenciesMeta:
+    rollup:
+      optional: true
+  checksum: 6290c1705e8d6ca38e0a6110f8d789b351ef188433db1504a77679b386c644ae9bfd27e23ba61671729bee6e9f6b96f4629b995df9b9613a8836464debe0fe41
+  languageName: node
+  linkType: hard
+
+"@rollup/plugin-node-resolve@npm:^15.0.1":
+  version: 15.0.1
+  resolution: "@rollup/plugin-node-resolve@npm:15.0.1"
+  dependencies:
+    "@rollup/pluginutils": "npm:^5.0.1"
+    "@types/resolve": "npm:1.20.2"
+    deepmerge: "npm:^4.2.2"
+    is-builtin-module: "npm:^3.2.0"
+    is-module: "npm:^1.0.0"
+    resolve: "npm:^1.22.1"
+  peerDependencies:
+    rollup: ^2.78.0||^3.0.0
+  peerDependenciesMeta:
+    rollup:
+      optional: true
+  checksum: 5f709d14dfd1f22af02d087098f2c2136ebb7f5d57a34fb91978168e4cce7852a4f0338ec951f7f96b47d0da1d443c024fdbaf99093ffb8107ac18369e65bc5c
+  languageName: node
+  linkType: hard
+
+"@rollup/pluginutils@npm:^5.0.1":
+  version: 5.0.2
+  resolution: "@rollup/pluginutils@npm:5.0.2"
+  dependencies:
+    "@types/estree": "npm:^1.0.0"
+    estree-walker: "npm:^2.0.2"
+    picomatch: "npm:^2.3.1"
+  peerDependencies:
+    rollup: ^1.20.0||^2.0.0||^3.0.0
+  peerDependenciesMeta:
+    rollup:
+      optional: true
+  checksum: c8e01caaf5d63c23f82ad6a1402cd8878718b298c29e09e57592dfffa18e01c389242610c41cb608f429828d13ef0848ff83fa474bbfe568966a9a8b2e93d25a
+  languageName: node
+  linkType: hard
+
 "@sveltejs/adapter-auto@npm:next":
   version: 1.0.0-next.90
   resolution: "@sveltejs/adapter-auto@npm:1.0.0-next.90"
@@ -198,6 +247,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/estree@npm:^1.0.0":
+  version: 1.0.0
+  resolution: "@types/estree@npm:1.0.0"
+  checksum: 474df434e3a469cb7a68d44c8b7ac3a21bca344fa3b49651c3451d0f3662ff0c3b2ba52149cbc5b9c9a9f3f1ac37958c163ef29b65a8b36fccb5ccb2acfc9b08
+  languageName: node
+  linkType: hard
+
 "@types/mjml-core@npm:*":
   version: 4.7.1
   resolution: "@types/mjml-core@npm:4.7.1"
@@ -225,6 +281,13 @@ __metadata:
   version: 2.0.6
   resolution: "@types/pug@npm:2.0.6"
   checksum: 78b5b53c0d80a756149a0ab6b92a2351eff73d25ded674189f972b2f9f78e8b4103c10a02ba95f9054b78af72e3b38284da77af7ee161d7c693e08176025670b
+  languageName: node
+  linkType: hard
+
+"@types/resolve@npm:1.20.2":
+  version: 1.20.2
+  resolution: "@types/resolve@npm:1.20.2"
+  checksum: beb29479ff900dc01a007b615c7e179e8ed44ce047176fa9266f9b978d4f40720029159295a569d0ed71676ba1db6086ce86c486c0a3a09b9e1d92d4da5cc8ab
   languageName: node
   linkType: hard
 
@@ -377,6 +440,13 @@ __metadata:
   version: 0.2.13
   resolution: "buffer-crc32@npm:0.2.13"
   checksum: 73cebf807d2cb038816676b12900f9c58ca29a4ab4c9ceedd40c0ced55c8da1f74d2b5ee526d5c2a1c17af72129350a2b6c427b420548dc779b3c88edf6829b6
+  languageName: node
+  linkType: hard
+
+"builtin-modules@npm:^3.3.0":
+  version: 3.3.0
+  resolution: "builtin-modules@npm:3.3.0"
+  checksum: 69bd2a742dc2aa7e69fc39b3289123e642c693705b8532ceab120e66496ec7cc599e3bd1352c09b45571910fa923c101abe8e1e36e0bc652e4397b19e6efb0e6
   languageName: node
   linkType: hard
 
@@ -1080,6 +1150,20 @@ __metadata:
   languageName: node
   linkType: hard
 
+"estree-walker@npm:^0.6.1":
+  version: 0.6.1
+  resolution: "estree-walker@npm:0.6.1"
+  checksum: 9cca986319573e0820299a39a5d345a00ec959a90565c116e626859c7dbfbec853a169263c2529b4993725ac52204077cd52b5a6b8818eb858a2f95a40d026e5
+  languageName: node
+  linkType: hard
+
+"estree-walker@npm:^2.0.2":
+  version: 2.0.2
+  resolution: "estree-walker@npm:2.0.2"
+  checksum: 6fd7656e20b3c8f1fa74cd3d922e09d2cc9815ba5ea2d4cc0d5f16870b00e4c40d9aaae5efeb26299ea684a89b8e64868f42ecdddd45e8d18283f47098c9943a
+  languageName: node
+  linkType: hard
+
 "fast-glob@npm:^3.2.7":
   version: 3.2.12
   resolution: "fast-glob@npm:3.2.12"
@@ -1435,6 +1519,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"is-builtin-module@npm:^3.2.0":
+  version: 3.2.0
+  resolution: "is-builtin-module@npm:3.2.0"
+  dependencies:
+    builtin-modules: "npm:^3.3.0"
+  checksum: 5b26848b69b4bfe4d78599fe5ffc60257c039c0908d7e491f1680c7a1f2d74e74e3ce86f44ea772f788a6e49cc4645f47029d0a8136a5281bf10652d2e1fbb1d
+  languageName: node
+  linkType: hard
+
 "is-core-module@npm:^2.9.0":
   version: 2.11.0
   resolution: "is-core-module@npm:2.11.0"
@@ -1471,6 +1564,13 @@ __metadata:
   version: 1.0.1
   resolution: "is-lambda@npm:1.0.1"
   checksum: 8e761e558bf60bd3682648e6ecb6333e9ad9c5a6fef2a9ca879deef1a40478e5f7e18999fc3630ef8b879cf00bc0248ffa5616aa4251917a7f87f066841310aa
+  languageName: node
+  linkType: hard
+
+"is-module@npm:^1.0.0":
+  version: 1.0.0
+  resolution: "is-module@npm:1.0.0"
+  checksum: 56efff366c237c4f3fb263e6b7e8b8358bb5fc63559552e928fecff27cb774d37f634b94461a6c72339b4ef7ea9f6dc95082508f42828ce5cdef2cb0c0600013
   languageName: node
   linkType: hard
 
@@ -2537,6 +2637,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"require-relative@npm:^0.8.7":
+  version: 0.8.7
+  resolution: "require-relative@npm:0.8.7"
+  checksum: 8e881969785c0fea21d09567d76371658a5dcce78c52c11012f19eded560611096d61356c9b95ee8380f2ac9ca39fef5ed8b3237c429d22def53ac89afea1035
+  languageName: node
+  linkType: hard
+
 "resolve-from@npm:^4.0.0":
   version: 4.0.0
   resolution: "resolve-from@npm:4.0.0"
@@ -2606,6 +2713,28 @@ __metadata:
   languageName: node
   linkType: hard
 
+"rollup-plugin-svelte@npm:^7.1.0":
+  version: 7.1.0
+  resolution: "rollup-plugin-svelte@npm:7.1.0"
+  dependencies:
+    require-relative: "npm:^0.8.7"
+    rollup-pluginutils: "npm:^2.8.2"
+  peerDependencies:
+    rollup: ">=2.0.0"
+    svelte: ">=3.5.0"
+  checksum: eab17094fcb0719ae1e3ab254f91f0a9a3878be2fc99dbdf91093acc074d0369675f799bcd398a20e50c89ac61a6b69cbf4980ccde04a66c9eb79ad0c9bec1ac
+  languageName: node
+  linkType: hard
+
+"rollup-pluginutils@npm:^2.8.2":
+  version: 2.8.2
+  resolution: "rollup-pluginutils@npm:2.8.2"
+  dependencies:
+    estree-walker: "npm:^0.6.1"
+  checksum: 9b64e4aa2dc18adacbd97ec6e210b0ea37484331c7f65a87eb5d523dee88170d52c4b758c81722558d266f255708615ea75b6a625f0979b8cf5b13089db1449c
+  languageName: node
+  linkType: hard
+
 "rollup@npm:^2.79.1":
   version: 2.79.1
   resolution: "rollup@npm:2.79.1"
@@ -2617,6 +2746,20 @@ __metadata:
   bin:
     rollup: dist/bin/rollup
   checksum: b91c27c3b5234af864f282ffa2c13891d9caf25cad8ba7ad11f5201bdb6516f10c90a8c3402a5f72eafc74a555b1c685b6b04d107a6d6866195812a82f4aa308
+  languageName: node
+  linkType: hard
+
+"rollup@npm:^3.5.1":
+  version: 3.5.1
+  resolution: "rollup@npm:3.5.1"
+  dependencies:
+    fsevents: "npm:~2.3.2"
+  dependenciesMeta:
+    fsevents:
+      optional: true
+  bin:
+    rollup: dist/bin/rollup
+  checksum: c2b114dddc60b5e01a6f1f08acae55d9d4c858bcdf64931724e354c51ddaeb782d36257ff5b83b66f12f7494a2f69cae1276febb1fb8ed02dce773cc65117b03
   languageName: node
   linkType: hard
 
@@ -2720,6 +2863,13 @@ __metadata:
     mrmime: "npm:^1.0.0"
     totalist: "npm:^3.0.0"
   checksum: 090b4e70982631d28a62f4acd3b5166e9652fa2f81935dc0727fc1c93ab5cc0768d67821173eafff3d73087332bd0e673ba705ec1ce6f73ee1398c1a70cdbee3
+  languageName: node
+  linkType: hard
+
+"slash@npm:^4.0.0":
+  version: 4.0.0
+  resolution: "slash@npm:4.0.0"
+  checksum: 0327fcda20ceb59983f59b6016ecc1d8a0c750a66af0205cdb0d0b92b857586c847515d3098a7538816c61a145d3822aec5509b0fe5c9ccff14789e0603c8ea1
   languageName: node
   linkType: hard
 
@@ -2887,14 +3037,19 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "svelte-emails@workspace:packages/svelte-emails"
   dependencies:
+    "@rollup/plugin-alias": "npm:^4.0.2"
+    "@rollup/plugin-node-resolve": "npm:^15.0.1"
     "@sveltejs/adapter-auto": "npm:next"
     "@sveltejs/kit": "npm:next"
     "@sveltejs/package": "npm:next"
     "@types/mjml": "npm:^4.7.0"
     mjml: "npm:^4.13.0"
+    rollup: "npm:^3.5.1"
+    rollup-plugin-svelte: "npm:^7.1.0"
     svelte: "npm:^3.53.1"
     svelte-check: "npm:^2.9.2"
     svelte-preprocess: "npm:^4.10.7"
+    svelte2tsx: "npm:^0.5.21"
     tslib: "npm:^2.4.1"
     typescript: "npm:^4.9.3"
     vite: "npm:^3.2.4"
@@ -2959,7 +3114,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"svelte2tsx@npm:~0.5.10":
+"svelte2tsx@npm:^0.5.21, svelte2tsx@npm:~0.5.10":
   version: 0.5.21
   resolution: "svelte2tsx@npm:0.5.21"
   dependencies:

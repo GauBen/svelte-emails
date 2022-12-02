@@ -1,27 +1,32 @@
 {
-	"name": "svelte-emails",
-	"version": "0.0.1",
-	"scripts": {
-		"dev": "vite dev",
-		"build": "svelte-kit sync && svelte-package",
-		"prepublishOnly": "echo 'Did you mean to publish `./package/`, instead of `./`?' && exit 1",
-		"check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
-		"check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch"
-	},
-	"devDependencies": {
-		"@sveltejs/adapter-auto": "next",
-		"@sveltejs/kit": "next",
-		"@sveltejs/package": "next",
-		"@types/mjml": "^4.7.0",
-		"svelte": "^3.53.1",
-		"svelte-check": "^2.9.2",
-		"svelte-preprocess": "^4.10.7",
-		"tslib": "^2.4.1",
-		"typescript": "^4.9.3",
-		"vite": "^3.2.4"
-	},
-	"type": "module",
-	"dependencies": {
-		"mjml": "^4.13.0"
-	}
+  "name": "svelte-emails",
+  "version": "0.0.1",
+  "scripts": {
+    "dev": "vite dev",
+    "build": "svelte-kit sync && tsc -p tsconfig.build.json && rollup -c",
+    "prepublishOnly": "echo 'Did you mean to publish `./package/`, instead of `./`?' && exit 1",
+    "check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
+    "check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch"
+  },
+  "devDependencies": {
+    "@rollup/plugin-alias": "^4.0.2",
+    "@rollup/plugin-node-resolve": "^15.0.1",
+    "@sveltejs/adapter-auto": "next",
+    "@sveltejs/kit": "next",
+    "@sveltejs/package": "next",
+    "@types/mjml": "^4.7.0",
+    "rollup": "^3.5.1",
+    "rollup-plugin-svelte": "^7.1.0",
+    "svelte": "^3.53.1",
+    "svelte-check": "^2.9.2",
+    "svelte-preprocess": "^4.10.7",
+    "svelte2tsx": "^0.5.21",
+    "tslib": "^2.4.1",
+    "typescript": "^4.9.3",
+    "vite": "^3.2.4"
+  },
+  "type": "module",
+  "dependencies": {
+    "mjml": "^4.13.0"
+  }
 }

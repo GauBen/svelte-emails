@@ -168,7 +168,7 @@ You can now `rm -rf src/routes` the previous routes and create or update a few f
 
 - `lib/`
 
-  - `Header.svelte`: This will be our common email header.
+  - `Header.svelte`: This will be our common email header. MJML offers a [lot of components](https://documentation.mjml.io/#standard-body-components) out of the box.
 
     ```html
     <mj-section>
@@ -215,7 +215,7 @@ You can now `rm -rf src/routes` the previous routes and create or update a few f
         <mj-body>${stripSvelteClasses(body)}</mj-body>
       </mjml>`;
 
-      // Render the MJML to HTML
+      // Render MJML to HTML
       const { html, errors } = mjml2html(mjml);
       if (errors.length > 0) console.warn(errors);
 
@@ -223,9 +223,9 @@ You can now `rm -rf src/routes` the previous routes and create or update a few f
     };
     ```
 
-- `mails/`: This is the root HTTP directory, and it will contain our emails.
+- `mails/`: This is the root HTTP directory, and it will also contain our emails.
 
-  - `index.ts`: This is our email entry point.
+  - `index.ts`: This file reexports all emails.
 
     ```ts
     export { default as HelloWorld } from "./hello-world/Mail.svelte";
@@ -256,7 +256,7 @@ You can now `rm -rf src/routes` the previous routes and create or update a few f
       </mj-section>
       ```
 
-    - `+page.server.ts`: This will be where we render the email with some parameters.
+    - `+page.server.ts`: This is our development email preview, powered by [Vite](https://vitejs.dev/).
 
       ```ts
       import { render } from "$lib";
@@ -270,7 +270,7 @@ You can now `rm -rf src/routes` the previous routes and create or update a few f
       });
       ```
 
-    - `+page.svelte`: Our email preview, powered by [Vite](https://vitejs.dev/).
+    - `+page.svelte`: This too.
 
       ```html
       <script lang="ts">
@@ -286,8 +286,94 @@ That is quite a lot of code! Let's try it out:
 ```bash
 # Start the dev server
 yarn dev
+
+#
 ```
 
+Go to [localhost:5173/hello-world](http://localhost:5173/hello-world) to see the email preview, and edit anything to see it update in real-time.
+
 ## The build pipeline
+
+We now have a working development environment, but we need to build our emails for production. We will use [Rollup](https://rollupjs.org/) to bundle our emails, and [svelte2tsx](https://www.npmjs.com/package/svelte2tsx) to emit type declarations.
+
+```bash
+# Install Rollup and its plugins
+yarn add -D rollup @rollup/plugin-alias @rollup/plugin-node-resolve rollup-plugin-svelte svelte2tsx
+```
+
+Then create a `rollup.config.js` file with the following:
+
+```js
+import alias from "@rollup/plugin-alias";
+import resolve from "@rollup/plugin-node-resolve";
+import { readFile, writeFile } from "node:fs/promises";
+import { createRequire } from "node:module";
+import { defineConfig } from "rollup";
+import svelte from "rollup-plugin-svelte";
+import { emitDts } from "svelte2tsx";
+import svelteConfig from "./svelte.config.js";
+
+export default defineConfig({
+  input: "src/mails/index.ts",
+  output: {
+    file: "build/mails/index.js",
+    format: "esm",
+  },
+  plugins: [
+    {
+      name: "rollup-plugin-svelte2dts",
+      /** Export component's types at the end of the build. */
+      async buildEnd() {
+        const require = createRequire(import.meta.url);
+
+        // All the heavy lifting is done by svelte2tsx
+        await emitDts({
+          svelteShimsPath: require.resolve("svelte2tsx/svelte-shims.d.ts"),
+          declarationDir: "build",
+        });
+
+        // We need to replace `.svelte` with `.svelte.js` for types to be resolved
+        const index = "build/mails/index.d.ts";
+        const code = await readFile(index, "utf-8");
+        await writeFile(index, code.replaceAll(".svelte", ".svelte.js"));
+      },
+    },
+    svelte({
+      ...svelteConfig,
+      compilerOptions: { generate: "ssr" },
+      emitCss: false,
+    }),
+    resolve({ exportConditions: ["svelte"], extensions: [".svelte"] }),
+    alias({ entries: [{ find: "$lib", replacement: "src/lib" }] }),
+  ],
+});
+```
+
+This will build our Svelte components but not the rest of the code: we will use `tsc` for that.
+
+Create a `tsconfig.build.json` with the following:
+
+```jsonc
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "outDir": "build"
+  },
+  "files": ["src/index.ts"],
+  "include": []
+}
+```
+
+Finally, update the `build` script of your `package.json` with the following:
+
+```jsonc
+{
+  "scripts": {
+    "build": "svelte-kit sync && tsc -p tsconfig.build.json && rollup -c"
+  }
+}
+```
+
+And `yarn build` your first email!
 
 ## Wrapping up

@@ -29,7 +29,7 @@ export const render = <Props extends Record<string, any>>(
         <mj-body>${stripSvelteClasses(body)}</mj-body>
       </mjml>`;
 
-  // Render the MJML to HTML
+  // Render MJML to HTML
   const { html, errors } = mjml2html(mjml);
   if (errors.length > 0) console.warn(errors);
 
