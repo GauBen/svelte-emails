@@ -43,7 +43,7 @@ Here is our plan:
 
 1. We would write Svelte code with MJML elements:
 
-   ```html
+   ```svelte
    <script lang="ts">
      export let name = "World";
    </script>
@@ -126,7 +126,7 @@ You will find a complete SvelteKit project in [`packages/svelte-emails`](https:/
 
   - [`Header.svelte`](https://github.com/GauBen/svelte-emails/blob/main/packages/svelte-emails/src/lib/Header.svelte): This is our common email header. MJML offers a [lot of components](https://documentation.mjml.io/#standard-body-components) out of the box.
 
-    ```html
+    ```svelte
     <mj-section>
       <mj-column>
         <mj-text align="center" font-size="20px" font-family="Helvetica">
@@ -176,13 +176,13 @@ You will find a complete SvelteKit project in [`packages/svelte-emails`](https:/
 
     - [`Mail.svelte`](https://github.com/GauBen/svelte-emails/blob/main/packages/svelte-emails/src/mails/hello-world/Mail.svelte): Make a guess!
 
-      ```html
+      ```svelte
       <script lang="ts">
         import Header from "$lib/Header.svelte";
         export let name: string;
       </script>
 
-      <header>Hello {name}!</header>
+      <Header>Hello {name}!</Header>
 
       <mj-section>
         <mj-column>
