@@ -1,4 +1,4 @@
-![Writing emails with Svelte](./cover.png)
+![Writing emails with Svelte](./docs/cover.png)
 
 # Writing emails with Svelte
 
@@ -292,7 +292,7 @@ yarn dev
 
 Go to [localhost:5173/hello-world](http://localhost:5173/hello-world) to see the email preview, and edit anything to see it update in real-time.
 
-![A screenshot of the resulting email, with a title and a button](./screenshot.png)
+![A screenshot of the resulting email, with a title and a button](./docs/screenshot.png)
 
 ## The build pipeline
 
