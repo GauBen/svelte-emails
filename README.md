@@ -4,7 +4,7 @@
 
 **Emails are the cornerstone of automated internet communication.** Create an account on a website? Email. Receive an invoice? Email. Sign up for an event? Email. As a developer, you will need to send emails at some point. And you will end up working with some of the most legacy web technologies.
 
-We, at Escape, recently **rebuilt our whole email stack from scratch to improve the developer experience:** we used to send emails to preview them, whereas now **we have an instant feedback loop,** leveraging a [SvelteKit](https://kit.svelte.dev/)-powered dev server.
+We, at Escape, recently **rebuilt our whole email stack from scratch to improve the developer experience:** we used to send emails to preview them, whereas now, **we have an instant feedback loop,** leveraging a [SvelteKit](https://kit.svelte.dev/)-powered dev server.
 
 ## Emails are written with 2003 HTML
 
@@ -31,7 +31,7 @@ Well, unfortunately for us, email clients are still stuck in the dark ages. We, 
   > ![MJML.io product demo](https://mjml.io/assets/img/index/screen.png)
   > Source: [MJML.io](https://mjml.io/)
 
-Because we had some experience with [MJML](https://mjml.io/) we decided to stick with it. It's battle-tested, has a lot of features, and is easy to learn.
+Because we had some experience with [MJML](https://mjml.io/) we decided to stick with it. It is battle-tested, has a lot of features, and is easy to learn.
 
 We now need a way to make these emails dynamic, with logic and string interpolation. The title probably ruined the surprise, but hey, **we chose Svelte**.
 
@@ -63,7 +63,9 @@ Here is our plan:
    ```js
    const mail = (props) => `<mj-section>
      <mj-column>
-       <mj-text font-size="32px" color="#F45E43" font-family="helvetica">Hello ${props.name}!</mj-text>
+       <mj-text font-size="32px" color="#F45E43" font-family="helvetica">
+         Hello ${props.name}!
+       </mj-text>
        <mj-divider border-color="#F45E43" />
      </mj-column>
    </mj-section>`;
@@ -104,7 +106,7 @@ Our setup will be in two parts:
 
 ## The dev server
 
-[SvelteKit](https://kit.svelte.dev) offers a fantastic developer experience to work with Svelte and was just released as stable, so it's a no-brainer to use it.
+[SvelteKit](https://kit.svelte.dev) offers a fantastic developer experience to work with Svelte and was just released as stable, so it is a no-brainer to use it.
 
 You can clone the whole experiment [from GitHub](https://github.com/GauBen/svelte-emails). We will go through the most interesting parts in the rest of the article.
 
@@ -128,6 +130,7 @@ You will find a complete SvelteKit project in [`packages/svelte-emails`](https:/
     <mj-section>
       <mj-column>
         <mj-text align="center" font-size="20px" font-family="Helvetica">
+          <!-- Svelte slot here! -->
           <slot />
         </mj-text>
         <mj-divider border-color="#ff3e00" />
@@ -148,10 +151,10 @@ You will find a complete SvelteKit project in [`packages/svelte-emails`](https:/
 
       const mjml = `<mjml>
         <mj-head>
-          ${stripSvelteClasses(head)}
+          ${head}
           <mj-style>${css.code}</mj-style>
         </mj-head>
-        <mj-body>${stripSvelteClasses(body)}</mj-body>
+        <mj-body>${body}</mj-body>
       </mjml>`;
 
       // Render MJML to HTML
@@ -163,7 +166,7 @@ You will find a complete SvelteKit project in [`packages/svelte-emails`](https:/
 
 - `mails/`: This is the root HTTP directory, and it will also contain our emails.
 
-  - [`index.ts`](https://github.com/GauBen/svelte-emails/blob/main/packages/svelte-emails/src/mails/index.ts): This file reexports all emails.
+  - [`index.ts`](https://github.com/GauBen/svelte-emails/blob/main/packages/svelte-emails/src/mails/index.ts): This file reexports all the emails.
 
     ```ts
     export { default as HelloWorld } from "./hello-world/Mail.svelte";
@@ -173,13 +176,13 @@ You will find a complete SvelteKit project in [`packages/svelte-emails`](https:/
 
     - [`Mail.svelte`](https://github.com/GauBen/svelte-emails/blob/main/packages/svelte-emails/src/mails/hello-world/Mail.svelte): Make a guess!
 
-      ```svelte
+      ```html
       <script lang="ts">
         import Header from "$lib/Header.svelte";
         export let name: string;
       </script>
 
-      <Header>Hello {name}!</Header>
+      <header>Hello {name}!</header>
 
       <mj-section>
         <mj-column>
@@ -195,7 +198,7 @@ You will find a complete SvelteKit project in [`packages/svelte-emails`](https:/
       </mj-section>
       ```
 
-    - `+page.server.ts` and `+page.svelte`: These are our development email previews, powered by [Vite](https://vitejs.dev/).
+    - [`+page.server.ts`](https://github.com/GauBen/svelte-emails/blob/main/packages/svelte-emails/src/mails/hello-world/%2Bpage.server.ts) and [`+page.svelte`](https://github.com/GauBen/svelte-emails/blob/main/packages/svelte-emails/src/mails/hello-world/%2Bpage.svelte): These are our development email previews, powered by [Vite](https://vitejs.dev/).
 
       ```ts
       export const load = async () => ({
@@ -221,7 +224,7 @@ Go to [localhost:5173/hello-world](http://localhost:5173/hello-world) to see the
 
 We now have a working development environment, but we need to build our emails for production. We will use [Rollup](https://rollupjs.org/) to bundle our emails, and [svelte2tsx](https://www.npmjs.com/package/svelte2tsx) to emit type declarations.
 
-Then [`rollup.config.js`](https://github.com/GauBen/svelte-emails/blob/main/packages/svelte-emails/rollup.config.js) file defines our build pipeline:
+The [`rollup.config.js`](https://github.com/GauBen/svelte-emails/blob/main/packages/svelte-emails/rollup.config.js) file defines our build pipeline:
 
 ```js
 export default {
@@ -254,7 +257,7 @@ export default {
 };
 ```
 
-Run `yarn build` in the GitHub repo to see for yourself!
+Run `yarn build` to transform the Svelte emails components into raw JavaScript.
 
 ## Wrapping up
 
