@@ -4,4 +4,5 @@ const html = render(HelloWorld, {
   // This is type-checked!
   name: "World",
 });
+
 console.log(html);

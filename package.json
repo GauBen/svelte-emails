@@ -1,12 +1,11 @@
 {
-  "name": "smails",
-  "packageManager": "yarn@4.0.0-rc.32",
+  "devDependencies": {
+    "prettier": "^2.8.1",
+    "prettier-plugin-svelte": "^2.9.0"
+  },
+  "packageManager": "yarn@4.0.0-rc.33",
   "private": true,
   "workspaces": [
     "packages/*"
-  ],
-  "devDependencies": {
-    "prettier": "^2.8.0",
-    "prettier-plugin-svelte": "^2.8.1"
-  }
+  ]
 }
