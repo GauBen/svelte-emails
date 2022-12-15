@@ -1,6 +1,6 @@
-![Writing emails with Svelte](./docs/cover.png)
+![Rendering emails with Svelte](./docs/cover.png)
 
-# Writing emails with Svelte
+# Rendering emails with Svelte
 
 **Emails are the cornerstone of automated internet communication.** Create an account on a website? Email. Receive an invoice? Email. Sign up for an event? Email. As a developer, you will need to send emails at some point. And you will end up working with some of the most legacy web technologies.
 
