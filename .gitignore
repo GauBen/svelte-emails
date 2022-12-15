@@ -9,5 +9,13 @@
 # Documentation here: https://yarnpkg.com/features/zero-installs
 !.yarn/cache
 #.pnp.*
-node_modules/
+
+.DS_Store
+.env
+.env.*
+!.env.example
+.svelte-kit/
 build/
+node_modules/
+vite.config.js.timestamp-*
+vite.config.ts.timestamp-*
