@@ -1,10 +1,10 @@
-![Rendering emails with Svelte](./docs/cover.png)
+![Rendering emails with Svelte](https://raw.githubusercontent.com/GauBen/svelte-emails/main/docs/cover.png)
 
 # Rendering emails with Svelte
 
 **Emails are the cornerstone of automated internet communication.** Create an account on a website? Email. Receive an invoice? Email. Sign up for an event? Email. As a developer, you will need to send emails at some point. And you will end up working with some of the most legacy web technologies.
 
-We, at Escape, recently **rebuilt our whole email stack from scratch to improve the developer experience** and make it easier to create emails. This article will detail how we did it.
+We, at Escape, recently **rebuilt our whole email stack from scratch to improve the developer experience:** we used to send emails to preview them, whereas now **we have an instant feedback loop,** leveraging a [SvelteKit](https://kit.svelte.dev/)-powered dev server.
 
 ## Emails are written with 2003 HTML
 
@@ -104,73 +104,25 @@ Our setup will be in two parts:
 
 ## The dev server
 
-If you want to have everything working by the end of this article, you can follow the steps below. Otherwise, you can skip to the next section.
+[SvelteKit](https://kit.svelte.dev) offers a fantastic developer experience to work with Svelte and was just released as stable, so it's a no-brainer to use it.
 
-If you don't have Node or Yarn on your machine, you can install them easily with [Volta](https://volta.sh/):
+You can clone the whole experiment [from GitHub](https://github.com/GauBen/svelte-emails). We will go through the most interesting parts in the rest of the article.
 
-```bash
-# Install the latest versions of Node and Yarn
-volta install node@latest
-volta install yarn@latest
+You will find a complete SvelteKit project in [`packages/svelte-emails`](https://github.com/GauBen/svelte-emails/tree/main/packages/svelte-emails):
 
-# Create a new project
-mkdir project && cd $_
-
-# Setup a monorepo with Yarn 4
-yarn init --private --workspace -2
-yarn set version canary
-
-# Enable the good ol' node_modules
-echo 'nodeLinker: node-modules' >> .yarnrc.yml
-echo 'node_modules/\nbuild/' >> .gitignore
-```
-
-We use Yarn 4 because it ships with a few tools to manage monorepos that we will use later.
-
-Then, let's create a SvelteKit project:
-
-```bash
-cd packages
-# Create a Svelte app in the `packages/svelte-emails` directory
-# You will have a few choices prompted:
-#  - Template: Library skeleton project
-#  - Type checking: TypeScript
-#  - Prettier, ESLint, etc.: Not needed, do as you wish
-yarn create svelte@latest svelte-emails
-
-# Install the dependencies
-cd $_ && yarn install
-
-# Add MJML too
-yarn add mjml
-```
-
-We now have a whole SvelteKit project in `packages/svelte-emails`. Let's update the `svelte.config.ts` file for our needs:
-
-```js
-import preprocess from "svelte-preprocess";
-
-/** @type {import('@sveltejs/kit').Config} */
-export default {
-  preprocess: preprocess(),
-  kit: { files: { routes: "src/mails" } },
-};
-```
-
-You can now `rm -rf src/routes` the previous routes and create or update a few files in `src/`:
-
-- `index.ts`: This will be our library entry point.
+- [`index.ts`](https://github.com/GauBen/svelte-emails/blob/main/packages/svelte-emails/src/index.ts): This is our library entry point.
 
   ```ts
   // Export the renderer
   export { render } from "./lib/index.js";
+
   // Also export compiled Svelte components
   export * from "./mails/index.js";
   ```
 
 - `lib/`
 
-  - `Header.svelte`: This will be our common email header. MJML offers a [lot of components](https://documentation.mjml.io/#standard-body-components) out of the box.
+  - [`Header.svelte`](https://github.com/GauBen/svelte-emails/blob/main/packages/svelte-emails/src/lib/Header.svelte): This is our common email header. MJML offers a [lot of components](https://documentation.mjml.io/#standard-body-components) out of the box.
 
     ```html
     <mj-section>
@@ -183,31 +135,16 @@ You can now `rm -rf src/routes` the previous routes and create or update a few f
     </mj-section>
     ```
 
-  - `index.ts`: We will put the MJML rendering logic in it.
+  - [`index.ts`](https://github.com/GauBen/svelte-emails/blob/main/packages/svelte-emails/src/lib/index.ts): It contains the MJML rendering logic.
 
     ```ts
-    import mjml2html from "mjml";
-    import type { SvelteComponentTyped } from "svelte";
-    import type { create_ssr_component } from "svelte/internal";
-
-    /**
-     * Removes classes added to elements by the Svelte compiler because MJML does
-     * not support them.
-     */
-    const stripSvelteClasses = (html: string) =>
-      html.replaceAll(/class="s-\w+"/g, "");
-
     /** Renders a Svelte component as email-ready HTML. */
-    export const render = <Props extends Record<string, any>>(
-      component: new (...args: any[]) => SvelteComponentTyped<Props>,
+    export const render = <Props>(
+      component: new (...args) => SvelteComponentTyped<Props>,
       props: Props
     ) => {
-      const ssrComponent = component as unknown as ReturnType<
-        typeof create_ssr_component
-      >;
-
       // Render the component to MJML
-      const { html: body, css, head } = ssrComponent.render(props);
+      const { html: body, css, head } = component.render(props);
 
       const mjml = `<mjml>
         <mj-head>
@@ -218,8 +155,7 @@ You can now `rm -rf src/routes` the previous routes and create or update a few f
       </mjml>`;
 
       // Render MJML to HTML
-      const { html, errors } = mjml2html(mjml);
-      if (errors.length > 0) console.warn(errors);
+      const { html } = mjml2html(mjml);
 
       return html;
     };
@@ -227,7 +163,7 @@ You can now `rm -rf src/routes` the previous routes and create or update a few f
 
 - `mails/`: This is the root HTTP directory, and it will also contain our emails.
 
-  - `index.ts`: This file reexports all emails.
+  - [`index.ts`](https://github.com/GauBen/svelte-emails/blob/main/packages/svelte-emails/src/mails/index.ts): This file reexports all emails.
 
     ```ts
     export { default as HelloWorld } from "./hello-world/Mail.svelte";
@@ -235,7 +171,7 @@ You can now `rm -rf src/routes` the previous routes and create or update a few f
 
   - `hello-world/`
 
-    - `Mail.svelte`: Make a guess!
+    - [`Mail.svelte`](https://github.com/GauBen/svelte-emails/blob/main/packages/svelte-emails/src/mails/hello-world/Mail.svelte): Make a guess!
 
       ```svelte
       <script lang="ts">
@@ -244,6 +180,7 @@ You can now `rm -rf src/routes` the previous routes and create or update a few f
       </script>
 
       <Header>Hello {name}!</Header>
+
       <mj-section>
         <mj-column>
           <mj-button
@@ -258,29 +195,15 @@ You can now `rm -rf src/routes` the previous routes and create or update a few f
       </mj-section>
       ```
 
-    - `+page.server.ts`: This is our development email preview, powered by [Vite](https://vitejs.dev/).
+    - `+page.server.ts` and `+page.svelte`: These are our development email previews, powered by [Vite](https://vitejs.dev/).
 
       ```ts
-      import { render } from "$lib";
-      import Mail from "./Mail.svelte";
-
       export const load = async () => ({
         email: render(Mail, {
           // This is type-checked!
           name: "World",
         }),
       });
-      ```
-
-    - `+page.svelte`: This too.
-
-      ```html
-      <script lang="ts">
-        import type { PageData } from "./$types";
-        export let data: PageData;
-      </script>
-
-      {@html data.email}
       ```
 
 That is quite a lot of code! Let's try it out:
@@ -292,39 +215,21 @@ yarn dev
 
 Go to [localhost:5173/hello-world](http://localhost:5173/hello-world) to see the email preview, and edit anything to see it update in real-time.
 
-![A screenshot of the resulting email, with a title and a button](./docs/screenshot.png)
+![A screenshot of the resulting email, with a title and a button](https://raw.githubusercontent.com/GauBen/svelte-emails/main/docs/screenshot.png)
 
 ## The build pipeline
 
 We now have a working development environment, but we need to build our emails for production. We will use [Rollup](https://rollupjs.org/) to bundle our emails, and [svelte2tsx](https://www.npmjs.com/package/svelte2tsx) to emit type declarations.
 
-```bash
-# Install Rollup and its plugins
-yarn add -D rollup @rollup/plugin-alias @rollup/plugin-node-resolve rollup-plugin-svelte svelte2tsx
-```
-
-Then create a `rollup.config.js` file with the following:
+Then [`rollup.config.js`](https://github.com/GauBen/svelte-emails/blob/main/packages/svelte-emails/rollup.config.js) file defines our build pipeline:
 
 ```js
-import alias from "@rollup/plugin-alias";
-import resolve from "@rollup/plugin-node-resolve";
-import { readFile, writeFile } from "node:fs/promises";
-import { createRequire } from "node:module";
-import { defineConfig } from "rollup";
-import svelte from "rollup-plugin-svelte";
-import { emitDts } from "svelte2tsx";
-import svelteConfig from "./svelte.config.js";
-
-export default defineConfig({
+export default {
   input: "src/mails/index.ts",
-  output: {
-    file: "build/mails/index.js",
-    format: "esm",
-  },
   plugins: [
     {
-      name: "rollup-plugin-svelte2dts",
       /** Export component's types at the end of the build. */
+      name: "rollup-plugin-svelte2dts",
       async buildEnd() {
         const require = createRequire(import.meta.url);
 
@@ -345,71 +250,15 @@ export default defineConfig({
       compilerOptions: { generate: "ssr" },
       emitCss: false,
     }),
-    resolve({ exportConditions: ["svelte"], extensions: [".svelte"] }),
-    alias({ entries: [{ find: "$lib", replacement: "src/lib" }] }),
   ],
-});
+};
 ```
 
-This will build our Svelte components but not the rest of the code: we will use `tsc` for that.
-
-Create a `tsconfig.build.json` with the following:
-
-```jsonc
-{
-  "extends": "./tsconfig.json",
-  "compilerOptions": {
-    "outDir": "build"
-  },
-  "files": ["src/index.ts"],
-  "include": []
-}
-```
-
-Finally, update your `package.json` with the following:
-
-```jsonc
-{
-  "exports": {
-    "types": "./build/index.d.ts",
-    "import": "./build/index.js"
-  },
-  "scripts": {
-    "build": "svelte-kit sync && tsc -p tsconfig.build.json && rollup -c"
-  }
-}
-```
-
-And `yarn build` your first email!
+Run `yarn build` in the GitHub repo to see for yourself!
 
 ## Wrapping up
 
-Let's see how to use our emails in a NodeJS app.
-
-```bash
-# We will create a demo package in `packages/demo`
-cd ..
-mkdir demo && cd $_
-
-# Init a new TypeScript project
-yarn init
-sed -i '1s/.*/{"type":"module",/' package.json
-yarn add -D typescript tsx svelte-emails
-```
-
-You will need a basic `tsconfig.json` too:
-
-```jsonc
-{
-  "compilerOptions": {
-    "module": "ESNext",
-    "moduleResolution": "NodeNext",
-    "strict": true
-  }
-}
-```
-
-Create an `index.ts` file in the same directory:
+Using our built emails in a NodeJS app is as simple as:
 
 ```ts
 import { render, HelloWorld } from "svelte-emails";
@@ -421,7 +270,7 @@ const html = render(HelloWorld, {
 console.log(html);
 ```
 
-And run it with `yarn tsx index.ts`!
+There is a [demo](https://github.com/GauBen/svelte-emails/tree/main/packages/demo) package in the repo for you to try out.
 
 ---
 

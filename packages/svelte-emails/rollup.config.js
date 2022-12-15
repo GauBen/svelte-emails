@@ -15,8 +15,8 @@ export default defineConfig({
   },
   plugins: [
     {
-      name: "rollup-plugin-svelte2dts",
       /** Export component's types at the end of the build. */
+      name: "rollup-plugin-svelte2dts",
       async buildEnd() {
         const require = createRequire(import.meta.url);
 
