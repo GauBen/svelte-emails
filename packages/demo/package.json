@@ -1,11 +1,16 @@
 {
   "name": "demo",
-  "devDependencies": {
+  "dependencies": {
+    "cli-highlight": "^2.1.11",
     "svelte-emails": "workspace:^",
-    "tsx": "^3.12.1",
+    "tsx": "^3.12.1"
+  },
+  "devDependencies": {
     "typescript": "^4.9.4"
   },
-  "packageManager": "yarn@4.0.0-rc.32",
   "private": true,
+  "scripts": {
+    "start": "tsx index.ts | highlight --language html"
+  },
   "type": "module"
 }
