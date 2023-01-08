@@ -37,7 +37,7 @@ export default defineConfig({
       compilerOptions: { generate: "ssr" },
       emitCss: false,
     }),
-    resolve({ exportConditions: ["svelte"], extensions: [".svelte"] }),
+    resolve({ exportConditions: ["svelte", "js", "ts"], extensions: [".svelte", ".js", ".ts"] }),
     alias({ entries: [{ find: "$lib", replacement: "src/lib" }] }),
   ],
 });
