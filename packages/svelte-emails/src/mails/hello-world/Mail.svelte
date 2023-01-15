@@ -1,9 +1,10 @@
 <script lang="ts">
   import Header from "$lib/Header.svelte";
+  import { greet } from "./dep.js";
   export let name: string;
 </script>
 
-<Header>Hello {name}!</Header>
+<Header>{greet(name)}</Header>
 
 <mj-section>
   <mj-column>

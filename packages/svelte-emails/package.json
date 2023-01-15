@@ -6,6 +6,7 @@
   "devDependencies": {
     "@rollup/plugin-alias": "^4.0.2",
     "@rollup/plugin-node-resolve": "^15.0.1",
+    "@rollup/plugin-typescript": "^11.0.0",
     "@sveltejs/kit": "^1.0.0",
     "@types/mjml": "^4.7.0",
     "rollup": "^3.7.4",
