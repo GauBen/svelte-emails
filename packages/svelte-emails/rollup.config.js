@@ -1,5 +1,6 @@
 import alias from "@rollup/plugin-alias";
 import resolve from "@rollup/plugin-node-resolve";
+import typescript from "@rollup/plugin-typescript";
 import { readFile, writeFile } from "node:fs/promises";
 import { createRequire } from "node:module";
 import { defineConfig } from "rollup";
@@ -38,6 +39,7 @@ export default defineConfig({
       emitCss: false,
     }),
     resolve({ exportConditions: ["svelte"], extensions: [".svelte"] }),
+    typescript({ sourceMap: false }),
     alias({ entries: [{ find: "$lib", replacement: "src/lib" }] }),
   ],
 });
