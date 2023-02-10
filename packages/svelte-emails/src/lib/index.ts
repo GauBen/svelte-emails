@@ -7,7 +7,7 @@ import type { create_ssr_component } from "svelte/internal";
  * not support them.
  */
 const stripSvelteClasses = (html: string) =>
-  html.replaceAll(/class="s-\w+"/g, "");
+  html.replaceAll(/class="s-[\w-]+"/g, "");
 
 /** Renders a Svelte component as email-ready HTML. */
 export const render = <Props extends Record<string, any>>(
