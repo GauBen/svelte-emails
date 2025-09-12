@@ -10,11 +10,12 @@ import svelteConfig from "./svelte.config.js";
 import path from "node:path";
 
 export default defineConfig({
-  input: "src/mails/index.ts",
+  input: "src/index.ts",
   output: {
-    file: "build/mails/index.js",
+    file: "build/index.js",
     format: "esm",
   },
+  external: ["mjml"],
   plugins: [
     {
       /** Export component's types at the end of the build. */
