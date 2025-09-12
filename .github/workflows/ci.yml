@@ -16,3 +16,5 @@ jobs:
           package-manager-cache: false
       - run: corepack enable && yarn && yarn build
       - run: yarn demo
+        env:
+          FORCE_COLOR: 1
