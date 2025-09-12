@@ -2,15 +2,14 @@
   "name": "demo",
   "dependencies": {
     "cli-highlight": "^2.1.11",
-    "svelte-emails": "workspace:^",
-    "tsx": "^3.12.2"
+    "svelte-emails": "workspace:^"
   },
   "devDependencies": {
-    "typescript": "^4.9.5"
+    "typescript": "^5.9.2"
   },
   "private": true,
   "scripts": {
-    "start": "tsx index.ts | highlight --language html"
+    "start": "node index.ts | highlight --language html"
   },
   "type": "module"
 }

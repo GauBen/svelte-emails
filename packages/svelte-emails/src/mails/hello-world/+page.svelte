@@ -1,7 +1,5 @@
 <script lang="ts">
-  import type { PageData } from "./$types";
-
-  export let data: PageData;
+  const { data } = $props();
 </script>
 
 {@html data.email}
