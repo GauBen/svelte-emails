@@ -13,5 +13,6 @@ jobs:
         with:
           node-version: latest
           check-latest: true
+          package-manager-cache: false
       - run: corepack enable && yarn && yarn build
       - run: yarn demo
