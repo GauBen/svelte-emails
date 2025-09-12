@@ -3,10 +3,10 @@
   "dependencies": {
     "cli-highlight": "^2.1.11",
     "svelte-emails": "workspace:^",
-    "tsx": "^3.12.2"
+    "tsx": "^4.20.5"
   },
   "devDependencies": {
-    "typescript": "^4.9.5"
+    "typescript": "^5.9.2"
   },
   "private": true,
   "scripts": {

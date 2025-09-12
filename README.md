@@ -123,7 +123,6 @@ You will find a complete SvelteKit project in [`packages/svelte-emails`](https:/
   ```
 
 - `lib/`
-
   - [`Header.svelte`](https://github.com/GauBen/svelte-emails/blob/main/packages/svelte-emails/src/lib/Header.svelte): This is our common email header. MJML offers a [lot of components](https://documentation.mjml.io/#standard-body-components) out of the box.
 
     ```svelte
@@ -144,7 +143,7 @@ You will find a complete SvelteKit project in [`packages/svelte-emails`](https:/
     /** Renders a Svelte component as email-ready HTML. */
     export const render = <Props>(
       component: new (...args) => SvelteComponentTyped<Props>,
-      props: Props
+      props: Props,
     ) => {
       // Render the component to MJML
       const { html: body, css, head } = component.render(props);
@@ -165,7 +164,6 @@ You will find a complete SvelteKit project in [`packages/svelte-emails`](https:/
     ```
 
 - `mails/`: This is the root HTTP directory, and it will also contain our emails.
-
   - [`index.ts`](https://github.com/GauBen/svelte-emails/blob/main/packages/svelte-emails/src/mails/index.ts): This file reexports all the emails.
 
     ```ts
@@ -173,7 +171,6 @@ You will find a complete SvelteKit project in [`packages/svelte-emails`](https:/
     ```
 
   - `hello-world/`
-
     - [`Mail.svelte`](https://github.com/GauBen/svelte-emails/blob/main/packages/svelte-emails/src/mails/hello-world/Mail.svelte): Make a guess!
 
       ```svelte

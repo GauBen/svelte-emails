@@ -1,6 +1,6 @@
 import mjml2html from "mjml";
-import type { SvelteComponentTyped } from "svelte";
-import type { create_ssr_component } from "svelte/internal";
+import type { Component } from "svelte";
+import * as svelte from "svelte/server";
 
 /**
  * Removes classes added to elements by the Svelte compiler because MJML does
@@ -11,20 +11,15 @@ const stripSvelteClasses = (html: string) =>
 
 /** Renders a Svelte component as email-ready HTML. */
 export const render = <Props extends Record<string, any>>(
-  component: new (...args: any[]) => SvelteComponentTyped<Props>,
-  props: Props
+  component: Component<Props>,
+  props: Props,
 ) => {
-  const ssrComponent = component as unknown as ReturnType<
-    typeof create_ssr_component
-  >;
-
   // Render the component to MJML
-  const { html: body, css, head } = ssrComponent.render(props);
+  const { head, body } = svelte.render(component, { props });
 
   const mjml = `<mjml>
         <mj-head>
           ${stripSvelteClasses(head)}
-          <mj-style>${css.code}</mj-style>
         </mj-head>
         <mj-body>${stripSvelteClasses(body)}</mj-body>
       </mjml>`;

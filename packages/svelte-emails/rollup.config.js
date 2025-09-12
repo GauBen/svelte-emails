@@ -7,6 +7,7 @@ import { defineConfig } from "rollup";
 import svelte from "rollup-plugin-svelte";
 import { emitDts } from "svelte2tsx";
 import svelteConfig from "./svelte.config.js";
+import path from "node:path";
 
 export default defineConfig({
   input: "src/mails/index.ts",
@@ -25,6 +26,8 @@ export default defineConfig({
         await emitDts({
           svelteShimsPath: require.resolve("svelte2tsx/svelte-shims.d.ts"),
           declarationDir: "build",
+          libRoot: "src",
+          tsconfig: path.resolve("tsconfig.json"),
         });
 
         // We need to replace `.svelte` with `.svelte.js` for types to be resolved
@@ -35,7 +38,7 @@ export default defineConfig({
     },
     svelte({
       ...svelteConfig,
-      compilerOptions: { generate: "ssr" },
+      compilerOptions: { generate: "server" },
       emitCss: false,
     }),
     resolve({ exportConditions: ["svelte"], extensions: [".svelte"] }),
