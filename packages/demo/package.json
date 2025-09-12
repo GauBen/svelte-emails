@@ -9,7 +9,7 @@
   },
   "private": true,
   "scripts": {
-    "start": "node index.ts | FORCE_COLOR=1 highlight --language html"
+    "start": "node index.ts | highlight --language html"
   },
   "type": "module"
 }
