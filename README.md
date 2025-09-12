@@ -141,9 +141,9 @@ You will find a complete SvelteKit project in [`packages/svelte-emails`](https:/
 
     ```ts
     /** Renders a Svelte component as email-ready HTML. */
-    export const render = <Props extends Record<string, any>>(
-      component: Component<Props>,
-      props: Props,
+    export const render = <T extends Component>(
+      component: T,
+      props: ComponentProps<T>,
     ) => {
       // Render the component to MJML
       const { head, body } = svelte.render(component, { props });
