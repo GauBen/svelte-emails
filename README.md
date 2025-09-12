@@ -45,7 +45,7 @@ Here is our plan:
 
    ```svelte
    <script lang="ts">
-     export let name = "World";
+     const { name }: { name: string } = $props();
    </script>
 
    <mj-section>
@@ -173,7 +173,8 @@ You will find a complete SvelteKit project in [`packages/svelte-emails`](https:/
       ```svelte
       <script lang="ts">
         import Header from "$lib/Header.svelte";
-        export let name: string;
+
+        const { name }: { name: string } = $props();
       </script>
 
       <Header>Hello {name}!</Header>

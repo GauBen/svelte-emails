@@ -1,7 +1,8 @@
 <script lang="ts">
   import Header from "$lib/Header.svelte";
   import { greet } from "./dep.js";
-  export let name: string;
+
+  const { name }: { name: string } = $props();
 </script>
 
 <Header>{greet(name)}</Header>
