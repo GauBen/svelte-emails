@@ -18,7 +18,7 @@ Well, unfortunately for us, email clients are still stuck in the dark ages. We, 
 
 - **Send plain text emails**, like good ol' text messages. Not possible for Escape, but you might consider it.
 
-  > ![Plain text email example](https://www.emailonacid.com/images/blog_images/Emailology/2018/plain/second-example.png)
+  > ![Plain text email example](https://www.emailonacid.com/wp-content/uploads/2018/04/Plain-text-email-example.jpg)
   > Source: [Email on Acid](https://www.emailonacid.com/blog/article/email-marketing/what-is-a-plain-text-email-and-when-should-i-use-one-2/)
 
 - **Use a WYSIWYG email editor**. [There are a lot out there!](https://www.google.com/search?q=email+builder) Turns out emails are hard to design. It would work well for static emails with a few string interpolations, but not for dynamic emails with a lot of logic, which we need. Depending on what you want to achieve, this might be the best option.
@@ -141,18 +141,15 @@ You will find a complete SvelteKit project in [`packages/svelte-emails`](https:/
 
     ```ts
     /** Renders a Svelte component as email-ready HTML. */
-    export const render = <Props>(
-      component: new (...args) => SvelteComponentTyped<Props>,
+    export const render = <Props extends Record<string, any>>(
+      component: Component<Props>,
       props: Props,
     ) => {
       // Render the component to MJML
-      const { html: body, css, head } = component.render(props);
+      const { head, body } = svelte.render(component, { props });
 
       const mjml = `<mjml>
-        <mj-head>
-          ${head}
-          <mj-style>${css.code}</mj-style>
-        </mj-head>
+        <mj-head>${head}</mj-head>
         <mj-body>${body}</mj-body>
       </mjml>`;
 
@@ -235,19 +232,16 @@ export default {
 
         // All the heavy lifting is done by svelte2tsx
         await emitDts({
-          svelteShimsPath: require.resolve("svelte2tsx/svelte-shims.d.ts"),
+          svelteShimsPath: require.resolve("svelte2tsx/svelte-shims-v4.d.ts"),
           declarationDir: "build",
+          libRoot: "src",
+          tsconfig: path.resolve("tsconfig.json"),
         });
-
-        // We need to replace `.svelte` with `.svelte.js` for types to be resolved
-        const index = "build/mails/index.d.ts";
-        const code = await readFile(index, "utf-8");
-        await writeFile(index, code.replaceAll(".svelte", ".svelte.js"));
       },
     },
     svelte({
       ...svelteConfig,
-      compilerOptions: { generate: "ssr" },
+      compilerOptions: { generate: "server" },
       emitCss: false,
     }),
   ],

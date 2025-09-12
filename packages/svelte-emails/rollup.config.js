@@ -30,11 +30,6 @@ export default defineConfig({
           libRoot: "src",
           tsconfig: path.resolve("tsconfig.json"),
         });
-
-        // We need to replace `.svelte` with `.svelte.js` for types to be resolved
-        const index = "build/mails/index.d.ts";
-        const code = await readFile(index, "utf-8");
-        await writeFile(index, code.replaceAll(".svelte", ".svelte.js"));
       },
     },
     svelte({
