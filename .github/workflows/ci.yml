@@ -1,0 +1,17 @@
+name: CI
+
+on:
+  push:
+
+jobs:
+  test:
+    name: Test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
+        with:
+          node-version: latest
+          check-latest: true
+      - run: corepack enable && yarn && yarn build
+      - run: yarn demo

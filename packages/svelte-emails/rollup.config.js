@@ -3,11 +3,11 @@ import resolve from "@rollup/plugin-node-resolve";
 import typescript from "@rollup/plugin-typescript";
 import { readFile, writeFile } from "node:fs/promises";
 import { createRequire } from "node:module";
+import path from "node:path";
 import { defineConfig } from "rollup";
 import svelte from "rollup-plugin-svelte";
 import { emitDts } from "svelte2tsx";
 import svelteConfig from "./svelte.config.js";
-import path from "node:path";
 
 export default defineConfig({
   input: "src/index.ts",
@@ -25,7 +25,7 @@ export default defineConfig({
 
         // All the heavy lifting is done by svelte2tsx
         await emitDts({
-          svelteShimsPath: require.resolve("svelte2tsx/svelte-shims.d.ts"),
+          svelteShimsPath: require.resolve("svelte2tsx/svelte-shims-v4.d.ts"),
           declarationDir: "build",
           libRoot: "src",
           tsconfig: path.resolve("tsconfig.json"),
