@@ -112,14 +112,14 @@ You can clone the whole experiment [from GitHub](https://github.com/GauBen/svelt
 
 You will find a complete SvelteKit project in [`packages/svelte-emails`](https://github.com/GauBen/svelte-emails/tree/main/packages/svelte-emails):
 
-- [`index.ts`](https://github.com/GauBen/svelte-emails/blob/main/packages/svelte-emails/src/index.ts): This is our library entry point.
+- [`index.ts`](https://github.com/GauBen/svelte-emails/blob/main/packages/svelte-emails/src/index.ts): This is our library entry point. It exports the renderer and all email components directly.
 
   ```ts
   // Export the renderer
   export { render } from "./lib/index.js";
 
   // Also export compiled Svelte components
-  export * from "./mails/index.js";
+  export { default as HelloWorld } from "./mails/hello-world/Mail.svelte";
   ```
 
 - `lib/`
@@ -141,12 +141,12 @@ You will find a complete SvelteKit project in [`packages/svelte-emails`](https:/
 
     ```ts
     /** Renders a Svelte component as email-ready HTML. */
-    export const render = <T extends Component>(
+    export const render = async <T extends Component>(
       component: T,
       props: ComponentProps<T>,
     ) => {
       // Render the component to MJML
-      const { head, body } = svelte.render(component, { props });
+      const { head, body } = await svelte.render(component, { props });
 
       const mjml = `<mjml>
         <mj-head>${head}</mj-head>
@@ -154,19 +154,13 @@ You will find a complete SvelteKit project in [`packages/svelte-emails`](https:/
       </mjml>`;
 
       // Render MJML to HTML
-      const { html } = mjml2html(mjml);
+      const { html } = await mjml2html(mjml);
 
       return html;
     };
     ```
 
 - `mails/`: This is the root HTTP directory, and it will also contain our emails.
-  - [`index.ts`](https://github.com/GauBen/svelte-emails/blob/main/packages/svelte-emails/src/mails/index.ts): This file reexports all the emails.
-
-    ```ts
-    export { default as HelloWorld } from "./hello-world/Mail.svelte";
-    ```
-
   - `hello-world/`
     - [`Mail.svelte`](https://github.com/GauBen/svelte-emails/blob/main/packages/svelte-emails/src/mails/hello-world/Mail.svelte): Make a guess!
 
@@ -217,18 +211,19 @@ Go to [localhost:5173/hello-world](http://localhost:5173/hello-world) to see the
 
 ## The build pipeline
 
-We now have a working development environment, but we need to build our emails for production. We will use [Rolldown](https://rolldown.rs/) to bundle our emails, and [svelte2tsx](https://www.npmjs.com/package/svelte2tsx) to emit type declarations.
+We now have a working development environment, but we need to build our emails for production. We will use [tsdown](https://tsdown.dev/) to bundle our emails, and [svelte2tsx](https://www.npmjs.com/package/svelte2tsx) to emit type declarations.
 
-The [`rolldown.config.ts`](https://github.com/GauBen/svelte-emails/blob/main/packages/svelte-emails/rolldown.config.ts) file defines our build pipeline:
+The [`tsdown.config.ts`](https://github.com/GauBen/svelte-emails/blob/main/packages/svelte-emails/tsdown.config.ts) file defines our build pipeline:
 
-```js
-export default {
-  input: "src/index.ts",
+```ts
+export default defineConfig({
+  outDir: "build",
+  dts: false,
   plugins: [
     {
       /** Export component's types at the end of the build. */
       name: "rollup-plugin-svelte2dts",
-      async buildEnd() {
+      async closeBundle() {
         // All the heavy lifting is done by svelte2tsx
         await emitDts({
           svelteShimsPath: fileURLToPath(
@@ -241,12 +236,11 @@ export default {
       },
     },
     svelte({
-      ...svelteConfig,
-      compilerOptions: { generate: "server" },
       emitCss: false,
+      compilerOptions: { generate: "server" },
     }),
   ],
-};
+});
 ```
 
 Run `yarn build` to transform the Svelte emails components into raw JavaScript.
@@ -258,7 +252,7 @@ Using our built emails in a NodeJS app is as simple as:
 ```ts
 import { render, HelloWorld } from "svelte-emails";
 
-const html = render(HelloWorld, {
+const html = await render(HelloWorld, {
   // This is type-checked!
   name: "World",
 });
