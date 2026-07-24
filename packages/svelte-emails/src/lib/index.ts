@@ -8,7 +8,7 @@ export const render = async <T extends Component<any, any>>(
   props: ComponentProps<T>,
 ) => {
   // Render the component to MJML
-  const { head, body } = svelte.render(component as never, { props });
+  const { head, body } = await svelte.render(component as never, { props });
 
   const mjml = /* HTML */ `<mjml>
     <mj-head>${head}</mj-head>

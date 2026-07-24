@@ -1,28 +1,30 @@
 {
   "name": "svelte-emails",
   "dependencies": {
-    "mjml": "^5.4.0"
+    "mjml": "^5.4.0",
+    "svelte": "^5.56.7"
   },
   "devDependencies": {
     "@sveltejs/kit": "^2.70.1",
     "@sveltejs/vite-plugin-svelte": "^7.2.0",
     "@types/mjml": "^5.0.0",
-    "rolldown": "^1.2.0",
+    "@types/node": "^26.1.1",
     "rollup-plugin-svelte": "^7.2.3",
     "svelte": "^5.56.7",
     "svelte-check": "^4.7.3",
     "svelte2tsx": "^0.7.58",
+    "tsdown": "^0.22.14",
     "typescript": "^6.0.3",
     "vite": "^8.1.5"
   },
   "exports": {
     "types": "./build/index.d.ts",
-    "import": "./build/index.js"
+    "import": "./build/index.mjs"
   },
   "private": true,
   "scripts": {
-    "build": "svelte-kit sync && tsc -p tsconfig.build.json && rolldown -c",
-    "check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
+    "build": "svelte-kit sync && tsdown",
+    "check": "svelte-kit sync && svelte-check",
     "dev": "vite dev"
   },
   "type": "module"
