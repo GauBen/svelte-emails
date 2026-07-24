@@ -1,13 +1,13 @@
-import alias from "@rollup/plugin-alias";
-import resolve from "@rollup/plugin-node-resolve";
-import typescript from "@rollup/plugin-typescript";
-import { readFile, writeFile } from "node:fs/promises";
-import { createRequire } from "node:module";
 import path from "node:path";
-import { defineConfig } from "rollup";
+import { defineConfig } from "rolldown";
 import svelte from "rollup-plugin-svelte";
 import { emitDts } from "svelte2tsx";
 import svelteConfig from "./svelte.config.js";
+import { fileURLToPath } from "node:url";
+import { viteAliasPlugin } from "rolldown/experimental";
+
+// Remove `kit` to avoid a warning
+delete svelteConfig.kit;
 
 export default defineConfig({
   input: "src/index.ts",
@@ -15,17 +15,26 @@ export default defineConfig({
     file: "build/index.js",
     format: "esm",
   },
+  platform: "node",
   external: ["mjml"],
   plugins: [
+    viteAliasPlugin({
+      entries: [
+        {
+          find: "$lib",
+          replacement: path.resolve("src/lib"),
+        },
+      ],
+    }),
     {
       /** Export component's types at the end of the build. */
       name: "rollup-plugin-svelte2dts",
       async buildEnd() {
-        const require = createRequire(import.meta.url);
-
         // All the heavy lifting is done by svelte2tsx
         await emitDts({
-          svelteShimsPath: require.resolve("svelte2tsx/svelte-shims-v4.d.ts"),
+          svelteShimsPath: fileURLToPath(
+            import.meta.resolve("svelte2tsx/svelte-shims-v4.d.ts"),
+          ),
           declarationDir: "build",
           libRoot: "src",
           tsconfig: path.resolve("tsconfig.json"),
@@ -37,8 +46,5 @@ export default defineConfig({
       compilerOptions: { generate: "server" },
       emitCss: false,
     }),
-    resolve({ exportConditions: ["svelte"], extensions: [".svelte"] }),
-    typescript({ sourceMap: false }),
-    alias({ entries: [{ find: "$lib", replacement: "src/lib" }] }),
   ],
 });

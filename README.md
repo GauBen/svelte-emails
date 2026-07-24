@@ -53,7 +53,7 @@ Here is our plan:
        <mj-text font-size="32px" color="#F45E43" font-family="helvetica">
          Hello {name}!
        </mj-text>
-       <mj-divider border-color="#F45E43" />
+       <mj-divider border-color="#F45E43"></mj-divider>
      </mj-column>
    </mj-section>
    ```
@@ -66,7 +66,7 @@ Here is our plan:
        <mj-text font-size="32px" color="#F45E43" font-family="helvetica">
          Hello ${props.name}!
        </mj-text>
-       <mj-divider border-color="#F45E43" />
+       <mj-divider border-color="#F45E43"></mj-divider>
      </mj-column>
    </mj-section>`;
    ```
@@ -132,7 +132,7 @@ You will find a complete SvelteKit project in [`packages/svelte-emails`](https:/
           <!-- Svelte slot here! -->
           <slot />
         </mj-text>
-        <mj-divider border-color="#ff3e00" />
+        <mj-divider border-color="#ff3e00"></mj-divider>
       </mj-column>
     </mj-section>
     ```
@@ -217,23 +217,23 @@ Go to [localhost:5173/hello-world](http://localhost:5173/hello-world) to see the
 
 ## The build pipeline
 
-We now have a working development environment, but we need to build our emails for production. We will use [Rollup](https://rollupjs.org/) to bundle our emails, and [svelte2tsx](https://www.npmjs.com/package/svelte2tsx) to emit type declarations.
+We now have a working development environment, but we need to build our emails for production. We will use [Rolldown](https://rolldown.rs/) to bundle our emails, and [svelte2tsx](https://www.npmjs.com/package/svelte2tsx) to emit type declarations.
 
-The [`rollup.config.js`](https://github.com/GauBen/svelte-emails/blob/main/packages/svelte-emails/rollup.config.js) file defines our build pipeline:
+The [`rolldown.config.ts`](https://github.com/GauBen/svelte-emails/blob/main/packages/svelte-emails/rolldown.config.ts) file defines our build pipeline:
 
 ```js
 export default {
-  input: "src/mails/index.ts",
+  input: "src/index.ts",
   plugins: [
     {
       /** Export component's types at the end of the build. */
       name: "rollup-plugin-svelte2dts",
       async buildEnd() {
-        const require = createRequire(import.meta.url);
-
         // All the heavy lifting is done by svelte2tsx
         await emitDts({
-          svelteShimsPath: require.resolve("svelte2tsx/svelte-shims-v4.d.ts"),
+          svelteShimsPath: fileURLToPath(
+            import.meta.resolve("svelte2tsx/svelte-shims-v4.d.ts"),
+          ),
           declarationDir: "build",
           libRoot: "src",
           tsconfig: path.resolve("tsconfig.json"),
