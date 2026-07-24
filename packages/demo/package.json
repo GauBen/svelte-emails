@@ -5,7 +5,7 @@
     "svelte-emails": "workspace:^"
   },
   "devDependencies": {
-    "typescript": "^5.9.2"
+    "typescript": "^6.0.3"
   },
   "private": true,
   "scripts": {

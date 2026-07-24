@@ -9,9 +9,10 @@
     "dev": "yarn workspace svelte-emails dev"
   },
   "devDependencies": {
-    "prettier": "^3.6.2",
-    "prettier-plugin-svelte": "^3.4.0",
-    "svelte": "^5.38.10"
+    "@types/node": "^26.1.1",
+    "prettier": "^3.9.6",
+    "prettier-plugin-svelte": "^4.1.1",
+    "svelte": "^5.56.7"
   },
-  "packageManager": "yarn@4.9.4"
+  "packageManager": "yarn@4.17.1"
 }

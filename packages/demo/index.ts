@@ -1,6 +1,6 @@
 import { render, HelloWorld } from "svelte-emails";
 
-const html = render(HelloWorld, {
+const html = await render(HelloWorld, {
   // This is type-checked!
   name: "World",
 });

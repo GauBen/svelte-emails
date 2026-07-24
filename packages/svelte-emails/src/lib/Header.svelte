@@ -4,6 +4,6 @@
       <!-- Svelte slot here! -->
       <slot />
     </mj-text>
-    <mj-divider border-color="#ff3e00" />
+    <mj-divider border-color="#ff3e00"></mj-divider>
   </mj-column>
 </mj-section>
